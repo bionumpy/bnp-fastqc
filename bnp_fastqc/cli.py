@@ -1,21 +1,26 @@
 """Console script for bnp_fastqc."""
 import sys
 import click
-import modules
-
+import bionumpy as bnp
+import bnp_fastqc
+from bnp_fastqc.modules import kmer_content
 
 MODULES = {
-   "kmer_content": modules.kmer_content
+   "kmer_content": kmer_content
 }
 
 
+
 @click.command()
-@click.option("--reads")
-@click.option("--module")
-def main(reads, module):
+@click.option("--module", required=True)
+@click.option("--reads", required=True)
+def main(module, reads):
     if module not in MODULES:
         print("Invalid module", module, ". Valid modules are: %s" % ', '.join(MODULES.keys()))
         return
+    else:
+        file = bnp.open(reads)
+        MODULES[module].run(file.read_chunks())
 
     return 0
 

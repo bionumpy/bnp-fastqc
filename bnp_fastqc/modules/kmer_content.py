@@ -1,5 +1,6 @@
-
+import bionumpy as bnp
 
 
 def run(chunks):
-    return
+    for chunk in chunks:
+        print(chunk)
